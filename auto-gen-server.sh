@@ -18,7 +18,6 @@ worlds_dir=/home/terraria/.local/share/Terraria/Worlds
 
 log=/tmp/autogen_log
 server_pid=-1
-cat_pid=-1
 begin_timestamp=0
 last_timestamp=0
 
@@ -37,8 +36,8 @@ function execute_command {
 }
 
 function mark_time {
-  last_timestamp=$(date +%s)
-  msg="$(( (1800 - $last_timestamp + $begin_timestamp) / 60)) minutes until the map is rebuilt!"
+  last_timestamp=$$(( $(date +%s) + 1 ))
+  msg="$(( (1800 - $last_timestamp + $begin_timestamp) / 60 + 1 )) minutes until the map is rebuilt!"
   execute_command "say $msg"
   execute_command "motd This server rebuilds the world after 30 minutes of uptime. Less than $msg"
 }
@@ -76,33 +75,33 @@ function start_gen_server {
   done
 
   # get latest auto-gen world & delete it if it exists
-#  echo "Deleting previous world(s)."
-#  number=$(grep "${world_name}" ${log} | awk '{ print $1 }')
-#  delete_count=0
-#  if [[ ! -z "${number}" ]]; then
-#    for i in $number; do
-#      execute_command "d $(($i - $delete_count))"
-#      execute_command "y"
-#      delete_count=$(($delete_count + 1))
-#    done
-#  fi
+  echo "Deleting previous world(s)."
+  number=$(grep "${world_name}" ${log} | awk '{ print $1 }')
+  delete_count=0
+  if [[ ! -z "${number}" ]]; then
+    for i in $number; do
+      execute_command "d $(($i - $delete_count))"
+      execute_command "y"
+      delete_count=$(($delete_count + 1))
+    done
+  fi
 
   # build world
-#  echo "Building world."
-#  sleep 5
-#  echo "Done sleeping."
-#  execute_command "n"
-#  execute_command ${size}
-#  execute_command ${difficulty}
-#  execute_command ${world_name}
+  echo "Building world."
+  sleep 5
+  echo "Done sleeping."
+  execute_command "n"
+  execute_command ${size}
+  execute_command ${difficulty}
+  execute_command ${world_name}
 
   # wait for world build
-#  tail -n 5 ${log} | grep "Choose World:"
-#  while [[ $? != 0 ]]; do
-#    sleep 1;
-#    tail -n 5 ${log} | grep "Choose World:"
-#  done
-#  echo "Built world!"
+  tail -n 5 ${log} | grep "Choose World:"
+  while [[ $? != 0 ]]; do
+    sleep 1;
+    tail -n 5 ${log} | grep "Choose World:"
+  done
+  echo "Built world!"
 
   # pick auto-gen world
   sleep 1
