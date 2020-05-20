@@ -36,7 +36,7 @@ function execute_command {
 }
 
 function mark_time {
-  last_timestamp=$$(( $(date +%s) + 1 ))
+  last_timestamp=$(( $(date +%s) + 1 ))
   msg="$(( (1800 - $last_timestamp + $begin_timestamp) / 60 + 1 )) minutes until the map is rebuilt!"
   execute_command "say $msg"
   execute_command "motd This server rebuilds the world after 30 minutes of uptime. Less than $msg"
