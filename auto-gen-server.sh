@@ -62,7 +62,7 @@ function start_gen_server {
   # cat > ${pipe_out} &
   # cat_pid=$!
   # echo "cat_pid: ${cat_pid}"
-  tail -f ${pipe_out} | TAG=autogen-server /home/terraria/1402/Linux/TerrariaServer.bin.x86_64 > ${log} 2>&1 &
+  tail -f ${pipe_out} | TAG=autogen-server /home/terraria/1403/Linux/TerrariaServer.bin.x86_64 > ${log} 2>&1 &
   server_pid=$!
   echo "server_pid: ${server_pid}"
   # echo > ${pipe_out}
@@ -94,6 +94,7 @@ function start_gen_server {
   execute_command ${size}
   execute_command ${difficulty}
   execute_command ${world_name}
+  execute_command ""
 
   # wait for world build
   tail -n 5 ${log} | grep "Choose World:"
